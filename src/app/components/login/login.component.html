@@ -1,0 +1,20 @@
+<ng-container class="mr-5" *ngIf="user$ | async as person; else nullUser">
+  LOGGED IN 
+  {{person.displayName}}
+  <button 
+  class="btn btn-primary " 
+  (click)="logout()">
+  logout
+  </button> 
+</ng-container>
+
+<ng-template #nullUser>
+  NOT LOGGED IN
+  <button 
+  class="btn btn-primary " 
+  (click)="googleLogin()">
+  Login
+  </button> 
+</ng-template>
+
+

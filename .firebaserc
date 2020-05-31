@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "reservation-system-ac407": {
+      "hosting": {
+        "reservation-auth": [
+          "reservation-system-ac407"
+        ]
+      }
+    }
+  }
+}
