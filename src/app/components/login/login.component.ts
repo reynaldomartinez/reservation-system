@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
+
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../../services/auth/auth.service';
-import { catchError, filter, takeUntil, pluck, take, map } from 'rxjs/operators';
-import { of, Subject, Observable, BehaviorSubject } from 'rxjs';
+import { catchError, filter, takeUntil, pluck, take, map, tap } from 'rxjs/operators';
+import { of, Subject, Observable, BehaviorSubject, Subscription } from 'rxjs';
+
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
@@ -14,8 +16,10 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 export class LoginComponent implements OnInit, OnDestroy {
   destroyed$: Subject<null> = new Subject();
   user$: Observable<firebase.User> = this.authService.user$;
-  subscription;
-  loggedIn;
+  // loggedIn: boolean;
+
+  // subscription: Subscription;
+  // Use SessionStorage or localStorage or cookies to store your data.
 
   // SNACKBAR
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
@@ -24,19 +28,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private readonly authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar) {
-
-     }
-
+    private snackBar: MatSnackBar
+    ) {}
   ngOnInit() {
-  
-    this.subscription = this.authService.status$.subscribe( x => {
-      this.loggedIn = x;
-    });
+    // this.subscription = this.authService.getStatus().subscribe(res => {
+    //   console.log(res);
+    //   this.loggedIn = res;
+    // });
   }
 
   googleLogin() {
-    this.authService.setStatus(true);
     this.authService
       .googleLogin()
       .pipe(
@@ -57,7 +58,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.setStatus(false);
     this.authService
       .logout()
       .pipe(
@@ -67,12 +67,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           // console.log(data);
-          this.router.navigate(['']);
+          this.router.navigate(['/login']);
         }
       );
   }
 
   ngOnDestroy() {
     this.destroyed$.next();
+    // this.subscription.unsubscribe();
   }
 }

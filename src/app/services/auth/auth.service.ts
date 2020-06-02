@@ -9,10 +9,14 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
+  // BehaviorSubject for change in user
   private user: BehaviorSubject<Observable<firebase.User>> = new BehaviorSubject(null);
 
-  private status = new Subject<boolean>();
-  status$ = this.status.asObservable();
+  // Subject for boolean(signed in || !signed in)
+  // status = new BehaviorSubject<boolean>(false);
+  // status$ = this.status.asObservable();
+
+  // Use SessionStorage or localStorage or cookies to store your data.
 
   user$: Observable<firebase.User> = this.user.asObservable()
       .pipe(
@@ -20,20 +24,16 @@ export class AuthService {
       );
   constructor( private afAuth: AngularFireAuth) {
       this.user.next(afAuth.user);
+
     }
 
     googleLogin(): Observable<auth.UserCredential> {
-      this.status.next(true);
+      // this.status.next(true);
       return from(this.afAuth.signInWithPopup(new auth.GoogleAuthProvider()));
     }
 
     logout(): Observable<void> {
-      this.status.next(false);
+      // this.status.next(false);
       return from(this.afAuth.signOut());
     }
-
-    setStatus(val: boolean) {
-      this.status.next(val);
-    }
-
 }

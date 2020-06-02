@@ -1,0 +1,32 @@
+.container {
+    height: 300px;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+form {
+    width: 500px;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.material-icons{
+    font-size: 20px;
+}
+
+.a-btn, .g-btn {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.btn-primary {
+    background-color: #4b7cb0 !important;
+}
+
+.btn-primary:hover {
+    background-color: #1976d2 !important;
+}
